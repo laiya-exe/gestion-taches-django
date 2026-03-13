@@ -43,7 +43,7 @@ Ce dossier contient l'application frontend développée avec **Angular 21** pour
 src/
 ├── app/
 │   ├── auth/               # Composants d'authentification (login, register, callback)
-│   ├── core/                # Composants partagés (navbar)
+│   ├── shared/                # Composants partagés (navbar)
 │   ├── dashboard/           # Tableau de bord et statistiques
 │   ├── guards/              # Guards de route (authGuard)
 │   ├── interceptors/        # Intercepteurs HTTP (authInterceptor)
@@ -62,7 +62,7 @@ src/
 
 ##  Composants 
 
-### 1. `Navbar` (`core/navbar`)
+### 1. `Navbar` (`shared/navbar`)
 - **Rôle** : Barre de navigation principale affichée sur toutes les pages.
 - **Fonctionnalités** :
   - Liens de navigation (Dashboard, Projets, Profil)
