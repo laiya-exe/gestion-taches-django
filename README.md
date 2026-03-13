@@ -50,7 +50,7 @@ Développée avec **Django REST Framework** (backend) et **Angular** (frontend).
 
 #### Les installations et configurations du backend sont disponibles sur [Documentation Technique - Django](gestion_taches/Documentation_Technique_Django.md)
 
-#### Les installations et configurations du backend sont disponibles sur [Documentation Technique - Angular](frontend/Documentation_Technique_Angular.md)
+#### Les installations et configurations du frontend sont disponibles sur [Documentation Technique - Angular](frontend/Documentation_Technique_Angular.md)
 
 ---
 
