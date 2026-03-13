@@ -48,9 +48,9 @@ Développée avec **Django REST Framework** (backend) et **Angular** (frontend).
 - Node.js 18+ et npm
 - Git
 
-#### Les installations et configurations du backend sont disponibles sur ```https://github.com/laiya-exe/gestion-taches-django/blob/main/public/Documentation Technique - Django.md```
+#### Les installations et configurations du backend sont disponibles sur [Documentation Technique - Django](gestion_taches/Documentation_Technique_Django.md)
 
-#### Les installations et configurations du frontend sont disponibles sur ```https://github.com/laiya-exe/gestion-taches-django/blob/main/public/Documentation Technique - Angular.md```
+#### Les installations et configurations du backend sont disponibles sur [Documentation Technique - Angular](frontend/Documentation_Technique_Angular.md)
 
 ---
 
