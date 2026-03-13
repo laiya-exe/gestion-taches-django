@@ -1,0 +1,138 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Mes projets</h2>
+        <a routerLink="/projects/new" class="btn btn-dark">
+            <i class="fas fa-plus me-1"></i> Nouveau projet
+        </a>
+    </div>
+
+    <!-- Loader & erreurs -->
+    <div *ngIf="loading" class="text-center my-5">
+        <div class="spinner-border text-dark" role="status">
+            <span class="visually-hidden">Chargement...</span>
+        </div>
+    </div>
+    <div *ngIf="error" class="alert alert-dark">{{ error }}</div>
+
+    <div *ngIf="!loading && !error">
+        <div *ngIf="projects.length === 0" class="alert alert-secondary">
+            Vous n'avez aucun projet. <a routerLink="/projects/new">Créer un projet</a>
+        </div>
+
+        <div class="row g-4">
+            <div *ngFor="let project of projects" class="col-md-6">
+                <div class="card shadow-sm project-card h-100 cursor-pointer">
+                    <div class="card-body d-flex flex-column">
+
+                        <!-- Titre avec icône -->
+                        <h5 class="card-title text-dark">
+                            <i class="fas fa-folder me-2 text-dark"></i> {{ project.name }}
+                        </h5>
+
+                        <!-- Description -->
+                        <p class="card-text text-truncate text-secondary">
+                            {{ project.description | slice:0:150 }}...
+                        </p>
+
+                        <!-- Infos créateur/date -->
+                        <p class="card-text mt-auto mb-3 text-secondary">
+                            <small>
+                                Créé par {{ project.created_by.username }} le {{ project.created_at | date:'shortDate'
+                                }}
+                            </small>
+                        </p>
+
+                        <!-- Actions -->
+                        <div class="btn-group">
+                            <a [routerLink]="['/projects', project.id]" class="btn btn-dark btn-sm">
+                                <i class="fas fa-eye me-1"></i> Voir
+                            </a>
+                            <a *ngIf="isCreator(project)" [routerLink]="['/projects', project.id, 'edit']"
+                                class="btn btn-secondary btn-sm">
+                                <i class="fas fa-edit me-1"></i> Modifier
+                            </a>
+                            <button *ngIf="isCreator(project)" (click)="deleteProject(project.id)"
+                                class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash me-1"></i> Supprimer
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Card shadow et hover */
+    .project-card {
+        border-radius: 1rem;
+        background-color: #fff;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .project-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.12);
+    }
+
+    /* Curseur clic sur card */
+    .cursor-pointer {
+        cursor: pointer;
+    }
+
+    /* Description truncate */
+    .card-text.text-truncate {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Boutons monochromes */
+    .btn-dark {
+        background-color: #212121;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-dark:hover {
+        background-color: #000;
+    }
+
+    .btn-secondary {
+        background-color: #757575;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-secondary:hover {
+        background-color: #616161;
+    }
+
+    .btn-danger {
+        background-color: #b71c1c;
+        color: #fff;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        background-color: #7f0000;
+    }
+
+    /* Badges (si ajoutés plus tard) */
+    .badge {
+        background-color: #e0e0e0;
+        color: #212121;
+    }
+
+    /* Textes */
+    .text-dark {
+        color: #212121 !important;
+    }
+
+    .text-secondary {
+        color: #555 !important;
+    }
+</style>

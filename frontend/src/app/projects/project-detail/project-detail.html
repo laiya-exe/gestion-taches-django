@@ -1,0 +1,88 @@
+<div *ngIf="project" class="container mt-3" style="max-width: 900px;">
+
+  <!-- Card informations projet -->
+  <div class="card shadow-sm project-card mb-4">
+
+    <div class="card-body">
+
+      <h2 class="card-title mb-2">{{ project.name }}</h2>
+
+      <!-- Badges info -->
+      <div class="mb-3 d-flex gap-2 flex-wrap">
+
+        <span class="badge bg-dark">
+          <i class="fa-solid fa-users me-1"></i>
+          {{ project.members?.length }} membres
+        </span>
+
+        <span class="badge bg-light text-dark border">
+          <i class="fa-solid fa-user me-1"></i>
+          {{ project.created_by.user_type }}
+        </span>
+
+      </div>
+
+      <p class="text-secondary mb-4">
+        {{ project.description }}
+      </p>
+
+      <h5 class="mb-3">Informations</h5>
+
+      <ul class="list-group list-group-flush mb-4">
+
+        <li class="list-group-item">
+          <strong>Créé le :</strong>
+          {{ project.created_at | date:'medium' }}
+        </li>
+
+        <li class="list-group-item">
+          <strong>Créé par :</strong>
+          {{ project.created_by.username }}
+        </li>
+      </ul>
+
+      <h5 class="mb-3">Membres du projet</h5>
+
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item" *ngFor="let member of project.members">
+          {{ member.username }} — {{ member.user_type }}
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+
+  <!-- Card tâches -->
+  <div class="card shadow-sm project-card">
+
+    <div class="card-header bg-dark text-white">
+      <h5 class="mb-0">
+        <i class="fa-solid fa-list-check me-2"></i>
+        Tâches
+      </h5>
+    </div>
+
+    <div class="card-body">
+      <app-task-list [projectId]="project.id"></app-task-list>
+    </div>
+
+  </div>
+
+</div>
+
+<style>
+  .project-card {
+    border-radius: 1rem;
+    background-color: #fff;
+  }
+
+  .text-secondary {
+    color: #555 !important;
+  }
+
+  .badge {
+    font-weight: 500;
+    padding: 0.45em 0.7em;
+  }
+</style>

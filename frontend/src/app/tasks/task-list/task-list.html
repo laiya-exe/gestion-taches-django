@@ -1,0 +1,124 @@
+<div class="filters mb-3 p-3 border rounded">
+  <div class="row g-2">
+    <div class="col-md-4">
+      <input type="text" class="form-control" placeholder="Rechercher..." [(ngModel)]="searchText"
+        (ngModelChange)="applyFilters()">
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" [(ngModel)]="selectedStatus" (ngModelChange)="applyFilters()">
+        <option value="">Tous les statuts</option>
+        <option value="a_faire">À faire</option>
+        <option value="en_cours">En cours</option>
+        <option value="termine">Terminé</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <!-- <select class="form-select" [(ngModel)]="selectedAssignee" (ngModelChange)="applyFilters()"> -->
+      <select class="form-select" [(ngModel)]="selectedAssignee" (change)="applyFilters()" [disabled]="showUnassigned">
+        <option [ngValue]="null">Tous les membres</option>
+        <option *ngFor="let member of projectMembers" [ngValue]="member.id">
+          {{ member.username }}
+        </option>
+      </select>
+    </div>
+    <div class="form-check mt-2">
+      <input type="checkbox" class="form-check-input" [(ngModel)]="showUnassigned" (change)="applyFilters()" />
+
+      <label class="form-check-label" for="unassigned">
+        Non assigné
+      </label>
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-outline-secondary w-100" (click)="resetFilters()">Réinitialiser</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading" class="spinner-border text-primary"></div>
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+<div *ngIf="!loading && !error">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h4 class="mb-0">
+      <span class="badge bg-dark">
+        {{ tasks.length }} tâches
+      </span>
+    </h4>
+
+    <a *ngIf="isProjectCreator" [routerLink]="['/projects', projectId, 'tasks', 'new']" class="btn btn-sm btn-dark">
+      + Nouvelle tâche
+    </a>
+
+  </div>
+
+  <div *ngIf="tasks.length === 0" class="alert alert-info">
+    Aucune tâche pour ce projet.
+  </div>
+
+  <div class="list-group">
+    <div *ngFor="let task of tasks" class="list-group-item">
+      <div class="d-flex justify-content-between align-items-start">
+        <div class="flex-grow-1">
+          <h5>{{ task.title }}</h5>
+          <p>{{ task.description }}</p>
+          <small class="text-muted d-flex gap-3 flex-wrap align-items-center">
+
+            <span>
+              <i class="fa-solid fa-user me-1"></i>
+              <span class="fw-bold">{{ task.assigned_to_detail?.username || 'Non assigné' }}</span>
+            </span>
+
+            <span>
+              <i class="fa-solid fa-calendar me-1"></i>
+              <span class="fw-bold">{{ task.due_date | date:'shortDate' }}</span>
+            </span>
+
+            <span>
+              <i class="fa-solid fa-flag me-1"></i>
+              Statut :
+              <select [ngModel]="task.status" (ngModelChange)="changeStatus(task, $event)" [disabled]="!canEdit(task)"
+                class="form-select form-select-sm d-inline-block w-auto fw-bold">
+                <option value="a_faire">À faire</option>
+                <option value="en_cours">En cours</option>
+                <option value="termine">Terminé</option>
+              </select>
+            </span>
+
+          </small>
+        </div>
+        <div *ngIf="canDelete(task)" class="btn-group btn-group-sm">
+          <a [routerLink]="['/projects', projectId, 'tasks', task.id, 'edit']" class="btn btn-secondary">
+            Modifier
+          </a>
+
+          <button (click)="deleteTask(task.id)" class="btn btn-danger">
+            Supprimer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .btn-danger {
+    background-color: #b71c1c;
+    color: #fff;
+    border: none;
+  }
+
+  .btn-danger:hover {
+    background-color: #7f0000;
+  }
+
+  .btn-secondary {
+    background-color: #757575;
+    color: #fff;
+    border: none;
+  }
+
+  .btn-secondary:hover {
+    background-color: #616161;
+  }
+</style>

@@ -1,0 +1,84 @@
+<div class="container mt-4" style="max-width: 700px;">
+
+    <div class="card shadow-sm form-card">
+
+        <div class="card-body">
+
+            <h3 class="text-center mb-4">
+                {{ isEditMode ? 'Modifier le projet' : 'Créer un projet' }}
+            </h3>
+
+            <div *ngIf="loading" class="text-center my-3">
+                <div class="spinner-border text-dark"></div>
+            </div>
+
+            <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+
+            <form [formGroup]="projectForm" (ngSubmit)="onSubmit()" *ngIf="!loading">
+
+                <!-- Nom -->
+                <div class="mb-3">
+                    <label for="name" class="form-label">Nom du projet</label>
+
+                    <input type="text" class="form-control" id="name" formControlName="name">
+
+                    <div *ngIf="projectForm.get('name')?.invalid && projectForm.get('name')?.touched"
+                        class="text-danger small mt-1">
+                        Le nom est requis.
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+
+                    <textarea class="form-control" id="description" rows="3" formControlName="description">
+          </textarea>
+                </div>
+
+                <!-- Membres -->
+                <div class="mb-4">
+
+                    <label class="form-label">Membres</label>
+
+                    <div *ngFor="let user of availableUsers; trackBy: trackUser" class="form-check">
+
+                        <input type="checkbox" class="form-check-input" [id]="'user_'+user.id" [value]="user.id"
+                            [checked]="projectForm.get('member_ids')?.value.includes(user.id)"
+                            (change)="onMemberChange($event)">
+
+                        <label class="form-check-label" [for]="'user_'+user.id">
+                            {{ user.username }} ({{ user.user_type }})
+                        </label>
+
+                    </div>
+
+                </div>
+
+                <!-- Boutons -->
+                <div class="d-flex justify-content-center gap-2">
+
+                    <button type="submit" class="btn btn-dark" [disabled]="projectForm.invalid">
+                        Enregistrer
+                    </button>
+
+                    <a routerLink="/projects" class="btn btn-outline-dark">
+                        Annuler
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    .form-card {
+        border-radius: 1rem;
+        background-color: #fff;
+    }
+</style>

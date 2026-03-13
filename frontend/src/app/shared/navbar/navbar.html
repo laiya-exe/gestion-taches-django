@@ -1,0 +1,53 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+        <!-- Logo / Nom de l'app -->
+        <a class="navbar-brand fw-bold" routerLink="/">Gestion de Tâches</a>
+
+        <!-- Bouton pour mobile (reste utile même si on se concentre sur grands écrans) -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Liens -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Tableau de bord</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/projects" routerLinkActive="active">Projets</a>
+                </li>
+                <li class="nav-item" *ngIf="authService.isAuthenticated()">
+                    <a class="nav-link" routerLink="/profile" routerLinkActive="active">Profil</a>
+                </li>
+                <li class="nav-item" *ngIf="!authService.isAuthenticated()">
+                    <a class="nav-link" routerLink="/login" routerLinkActive="active">Connexion</a>
+                </li>
+                <li class="nav-item" *ngIf="authService.isAuthenticated()">
+                    <a class="nav-link" href="#" (click)="logout()">Déconnexion</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Styles personnalisés -->
+<style>
+    /* Souligner au survol et animation douce */
+    .nav-link {
+        position: relative;
+        transition: color 0.2s;
+    }
+
+    .nav-link:hover::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -3px;
+        width: 100%;
+        height: 2px;
+        background-color: #fff;
+        border-radius: 1px;
+    }
+</style>

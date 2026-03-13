@@ -1,0 +1,100 @@
+<div class="container stats-container" *ngIf="!loading && !error && stats" style="max-width: 900px;">
+    <div class="row g-4">
+        <!-- Trimestre -->
+        <div class="col-md-6">
+            <div class="card shadow-sm project-card stats-card">
+                <div class="card-body d-flex flex-column align-items-center justify-content-center py-2">
+
+                    <!-- Titre -->
+                    <h6 class="card-title text-dark mb-1">Trimestre en cours</h6>
+
+                    <!-- Pourcentage -->
+                    <div class="stat-rate mb-1" [ngClass]="getRateClass(stats.quarter.rate)">
+                        {{ formatRate(stats.quarter.rate) }}%
+                    </div>
+                    <p class="text-secondary text-center small mb-1">Tâches terminées</p>
+
+                    <!-- Prime -->
+                    <div *ngIf="userType === 'professeur' && stats.quarter.prime !== undefined" class="mt-1">
+                        <div class="badge bg-dark text-white px-3 py-1 rounded-pill small">
+                            Prime : <span class="fw-bold">{{ stats.quarter.prime }} 000 F</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Année -->
+        <div class="col-md-6">
+            <div class="card shadow-sm project-card stats-card">
+                <div class="card-body d-flex flex-column align-items-center justify-content-center py-2">
+
+                    <!-- Titre -->
+                    <h6 class="card-title text-dark mb-1">Année en cours</h6>
+
+                    <!-- Pourcentage -->
+                    <div class="stat-rate mb-1" [ngClass]="getRateClass(stats.year.rate)">
+                        {{ formatRate(stats.year.rate) }}%
+                    </div>
+                    <p class="text-secondary text-center small mb-1">Tâches terminées</p>
+
+                    <!-- Prime -->
+                    <div *ngIf="userType === 'professeur' && stats.year.prime !== undefined" class="mt-1">
+                        <div class="badge bg-dark text-white px-3 py-1 rounded-pill small">
+                            Prime : <span class="fw-bold">{{ stats.year.prime }} 000 F</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" class="text-center my-3">
+    <div class="spinner-border text-dark"></div>
+</div>
+
+<div *ngIf="error" class="alert alert-dark my-3 text-center">
+    {{ error }}
+</div>
+
+<style>
+    /* Cards shadow et arrondis (identique aux projets) */
+    .project-card {
+        border-radius: 1rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+        background-color: #fff;
+    }
+
+    .project-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Texte pour le pourcentage */
+    .stat-rate {
+        font-size: 1.3rem;
+        /* un peu plus petit */
+        font-weight: 600;
+        color: #212121;
+    }
+
+    /* Textes secondaires */
+    .text-secondary {
+        color: #555 !important;
+    }
+
+    /* Badges plus petits */
+    .badge {
+        border-radius: 50rem;
+        /* pill */
+        font-size: 0.75rem;
+        padding: 0.2rem 0.6rem;
+    }
+
+    /* Loader */
+    .spinner-border {
+        width: 2rem;
+        height: 2rem;
+    }
+</style>
